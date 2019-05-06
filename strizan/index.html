@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Resume - Start Bootstrap Theme</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom fonts for this template -->
+  <link href="https://fonts.googleapis.com/css?family=Saira+Extra+Condensed:500,700" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Muli:400,400i,800,800i" rel="stylesheet">
+  <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="css/resume.min.css" rel="stylesheet">
+
+</head>
+
+<body id="page-top">
+
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top" id="sideNav">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link js-scroll-trigger" href="#ultraschall">Roboter mit Ultraschallsensoren</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="container-fluid p-0">
+
+    <section class="resume-section p-3 p-lg-5 d-flex align-items-center" id="ultraschall">
+      <div class="w-100">
+        <h1 class="mb-0">Roboter mit Abstandsmessung durch Ultraschallsensoren
+        </h1>
+
+        <h3> Globaler Programmbereich </h3>
+<pre>
+        <code>
+         #include <FahrzeugLib.h> //Fahrzeuglibrary zur Ansteuerung der Motoren wird eingebunden
+
+        #define triggerFront 7 //Pin-Belegung für die Trigger
+        #define echoFront A5 //Pin-Belegung für die Echo
+
+        #define triggerLeft 9
+        #define echoLeft A4
+
+        #define triggerRight 8
+        #define echoRight A3
+
+
+        CMotor MotorLinks(3,2);
+        CMotor MotorRechts(5,4);
+        CAntrieb Antrieb(&MotorLinks, &MotorRechts);
+
+        int dLeft = 0;  //Variablen, die die Abstandswerte (gemessen von den Ultraschallsensoren), speichern
+        int dRight = 0;
+        int dFront = 0;
+        </code>
+</pre>
+        <h3> Methode Messe</h3>
+<pre>
+        <code>
+        long messen(int trigger, int echo) {
+
+        long dauer=0;
+        long entfernung=0;
+
+        digitalWrite(trigger, LOW);
+        delay(5);
+        digitalWrite(trigger, HIGH);
+        delay(10);
+        digitalWrite(trigger, LOW);
+        dauer = pulseIn(echo, HIGH);
+        entfernung = (dauer/2) * 0.03432;
+        return entfernung;
+        }
+         </code>
+</pre>
+        <p>Die Messen-Methode nimmt einen Trigger-Pin und einen Echo-Pin entgegen, um einen spezifischen Ultraschallsensor
+        auszulesen. Die grundsätzliche Funktion basiert auf dem Prinzip eines ausgesendeten Trigger-Signales, welches wieder auf die Ultraschallsensoren zurückgeworfen wird. Aufgrund der gemessenen Zeit der Reflektion, kann der Abstand bzw. in diesem Fall die "entfernung berechnet werden"</p>
+
+        <h3> setup() </h3>
+
+<pre>
+        <code>
+        void setup() {
+        Serial.begin(9600); //Serielle Kommunikation wird gestartet, um die Werte später im Serial Monitor auswerten zu können
+        pinMode(triggerLeft, OUTPUT);  //trigger-Pin wird als OUTPUT definiert
+        pinMode(echoLeft, INPUT);  //echo-Pin wird als INPUT definiert
+
+        pinMode(triggerRight, OUTPUT);
+        pinMode(echoRight, INPUT);
+
+        pinMode(triggerFront, OUTPUT);
+        pinMode(echoFront, INPUT);
+        }
+        </code>
+</pre>
+        <h3>loop()</h3>
+      <pre>  <code>
+        void loop() {
+
+        if(dLeft < 20 || dRight < 20) {
+
+        Antrieb.Kurve((dRight-dLeft)*2.5, 150, true);
+
+        } else {
+
+        Antrieb.Kurve(1, 150, true);
+
+        }
+
+        if(dFront < 20 && dFront > 0) {
+
+            if(dLeft > dRight) {
+
+                Antrieb.Wende(true, 150);
+
+             } else {
+
+                Antrieb.Wende(false, 150);
+
+        }
+         }
+
+
+        dFront = messen(triggerFront, echoFront);
+        dLeft = messen(triggerLeft, echoLeft);
+        dRight = messen(triggerRight, echoRight);
+
+        }
+        </code>
+</pre>
+        <p>Die erste IF-Abfrage prüft am Anfang jeder "loop", ob der Anfang vom rechten bzw. linken Sensor zur Wand größer oder kleiner
+        als 20cm ist. Falls der Abstand kleiner ist, wird die Kurvengröße je nachdem welcher Abstand größer ist berechnet und ausgeführt, ansonsten fährt das HTL-CAR gerade aus. <br> <br>
+
+        Bei der zweiten IF-Clause wird der gleiche Prozess mit dem Frontsensor ausgeführt. Falls der Abstand kleiner als 20cm ist, wird kontrolliert, ob der Abstand zur rechten Seite oder zur linken größer ist. Je nachdem wird darauf folgend die Wende nach links oder nach rechts ausgeführt.<br> <br>
+
+        Im letzten Code-Block werden am Ende der Loop die Abstands-Variablen mit den neu gemessenen Werten aktualisiert.
+
+        </p>
+
+        </div>
+      </div>
+    </section>
+
+    <hr class="m-0">
+
+
+  </div>
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Plugin JavaScript -->
+  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+  <!-- Custom scripts for this template -->
+  <script src="js/resume.min.js"></script>
+
+</body>
+
+</html>
