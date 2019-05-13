@@ -17,14 +17,14 @@
             </video>
 			
 Beschreibung:
-Das HTL-Car soll mit Hilfe der Ultraschallsensoren einen Parkour fahren. Es f‰hrt, je nach dem welcher Sensor n‰her zur welchen seitlichen Wand ist, eine Links- oder Rechtskurve. Wenn keine Seitenw‰nde gibt soll es geradeaus fahren.
+Das HTL-Car soll mit Hilfe der Ultraschallsensoren einen Parkour fahren. Es f√§hrt, je nach dem welcher Sensor n√§her zur welchen seitlichen Wand ist, eine Links- oder Rechtskurve. Wenn keine Seitenw√§nde gibt soll es geradeaus fahren.
 
 Code:
 
 #include <FahrzeugLib.h>
 #include <SoftwareSerial.h>
 
-// Bei den Trigger und Echo Anschl¸ssen der Ultraschallsensoren werden die Anschl¸sse definiert.
+// Bei den Trigger und Echo Anschl√ºssen der Ultraschallsensoren werden die Anschl√ºsse definiert.
 
 const int trigPinmitte = 12;
 const int echoPinmitte = 11;
@@ -35,7 +35,7 @@ const int echoPinrechts = 9;
 const int trigPinlinks = 7;
 const int echoPinlinks = 6;
 
-// Anschl¸sse der beiden Motoren:
+// Anschl√ºsse der beiden Motoren:
 CMotor MotorLinks(3, 2);
 CMotor MotorRechts(5, 4);
 CAntrieb Antrieb(&MotorLinks, &MotorRechts);
@@ -97,13 +97,13 @@ if (((distancemitte > 15) || (distancerechts > 15 )) || (distancelinks > 15)) {
     Antrieb.Gerade(true,100); 
   }
 
-// Wenn der rechte Sensor eine Distanz von kleiner gleich 15cm erkennt dann soll das Auto eine Kurve nach links mit der Sch‰rfe 5 fahren.
+// Wenn der rechte Sensor eine Distanz von kleiner gleich 15cm erkennt dann soll das Auto eine Kurve nach links mit der Sch√§rfe 5 fahren.
 if(distancerechts<=15)
 {
      Antrieb.Kurve(5, 100, true);
 }
 
-// Wenn der linke Sensor eine Distanz von kleiner gleich 15cm erkennt dann soll das Auto eine Kurve nach rechts mit der Sch‰rfe 5 fahren.
+// Wenn der linke Sensor eine Distanz von kleiner gleich 15cm erkennt dann soll das Auto eine Kurve nach rechts mit der Sch√§rfe 5 fahren.
 if(distancelinks<=15)
 {
      Antrieb.Kurve(-5, 100, true);
