@@ -165,20 +165,23 @@ pinMode(srechts, INPUT);
 Serial.begin(9600);
 }
 
+// Wert des linken Sensors wird ausgegeben.
 boolean links() {
   return digitalRead(slinks);
 }
 
+// Wert des mittleren Sensors wird ausgegeben.
 boolean mitte() {
   return digitalRead(smitte);
 }
 
+// Wert des rechten Sensors wird ausgegeben.
 boolean rechts() {
   return digitalRead(srechts);
 }
 
 void loop() {
-  
+  //Ausgeben der Werte.
   Serial.print("Links: ");
   Serial.println(links());
 
@@ -188,12 +191,17 @@ void loop() {
   Serial.print("Rechts: ");
   Serial.println(rechts());
 
+  // Wenn der rechte Sensor auf schwarz ist fahrt das Auto eine leichte Rechtskurve
   if(rechts() == true){
     Antrieb.Kurve(-5, 120, true);
   }
+
+  // Wenn der linke Sensor auf schwarz ist fahrt das Auto eine leichte Rechtskurve
   if(links() == true){
     Antrieb.Kurve(5, 120, true);
   }
+
+  // Wenn der mittlere Sensor auf schwarz ist, und die anderen nicht, fahrt das Auto eine leichte Rechtskurve
   if((mitte() == true) && (links() == false) && (rechts() == false)){
     Antrieb.Gerade(true,150);
   }
