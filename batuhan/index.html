@@ -32,9 +32,11 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a class="nav-link js-scroll-trigger" href="#ultraschall">HTL - Car <br>----------------------- Oezcan Batuhan, Moongatottathil Roshy</a>
+          <a class="nav-link js-scroll-trigger" href="#ultraschall">HTL - Car <br>----------------------- Oezcan Batuhan, Pilz Sebastian</a>
 		  <video id='v1' width="200" autoplay>
-            <source src="video.mp4" type="video/mp4">
+            <source src="video.mp4" type="video/mp4"></video>
+			<video id='v2' width="200" autoplay>
+            <source src="linienfolger.mp4" type="video/mp4">
         </li>
       </ul>
     </div>
@@ -140,7 +142,64 @@ if(distancelinks<=15)
 }
         </code>
 </pre>
-        
+<h3> Globaler Programmbereich Linienfolger</h3>
+<pre>
+	<code>
+#include <FahrzeugLib.h>
+#include <SoftwareSerial.h>
+
+#define slinks 12
+#define smitte 11
+#define srechts 10
+
+CMotor MotorLinks(3, 2);
+CMotor MotorRechts(5, 4);
+CAntrieb Antrieb(&MotorLinks, &MotorRechts);
+
+void setup() {
+  
+pinMode(slinks, INPUT);
+pinMode(smitte, INPUT);
+pinMode(srechts, INPUT);
+
+Serial.begin(9600);
+}
+
+boolean links() {
+  return digitalRead(slinks);
+}
+
+boolean mitte() {
+  return digitalRead(smitte);
+}
+
+boolean rechts() {
+  return digitalRead(srechts);
+}
+
+void loop() {
+  
+  Serial.print("Links: ");
+  Serial.println(links());
+
+  Serial.print("Mitte: ");
+  Serial.println(mitte());
+
+  Serial.print("Rechts: ");
+  Serial.println(rechts());
+
+  if(rechts() == true){
+    Antrieb.Kurve(-5, 120, true);
+  }
+  if(links() == true){
+    Antrieb.Kurve(5, 120, true);
+  }
+  if((mitte() == true) && (links() == false) && (rechts() == false)){
+    Antrieb.Gerade(true,150);
+  }
+}
+	</code>
+</pre>
 
         </div>
       </div>
