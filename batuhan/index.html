@@ -1,30 +1,57 @@
-
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Batuhan-Car</title>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-    </head>
-    <body>
-	<p>
-	<video width="360" height="230" autoplay>
-            <source src="video.mp4" type="video/mp4">
-            Your browser does not support the video tag.
-            </video>
-			
-Beschreibung:
-Das HTL-Car soll mit Hilfe der Ultraschallsensoren einen Parkour fahren. Es f‰hrt, je nach dem welcher Sensor n‰her zur welchen seitlichen Wand ist, eine Links- oder Rechtskurve. Wenn keine Seitenw‰nde gibt soll es geradeaus fahren.
+<html lang="en">
 
-Code:
+<head>
 
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Resume - Start Bootstrap Theme</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom fonts for this template -->
+  <link href="https://fonts.googleapis.com/css?family=Saira+Extra+Condensed:500,700" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Muli:400,400i,800,800i" rel="stylesheet">
+  <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="css/resume.min.css" rel="stylesheet">
+
+</head>
+
+<body id="page-top">
+
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top" id="sideNav">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link js-scroll-trigger" href="#ultraschall">Roboter mit Ultraschallsensoren ----------------------- Oezcan Batuhan, Moongatottathil Roshy</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="container-fluid p-0">
+
+    <section class="resume-section p-3 p-lg-5 d-flex align-items-center" id="ultraschall">
+      <div class="w-100">
+        <h1 class="mb-0">Roboter mit Abstandsmessung durch Ultraschallsensoren
+        </h1>
+
+        <h3> Globaler Programmbereich </h3>
+<pre>
+        <code>
 #include <FahrzeugLib.h>
 #include <SoftwareSerial.h>
 
-// Bei den Trigger und Echo Anschl¸ssen der Ultraschallsensoren werden die Anschl¸sse definiert.
+// Bei den Trigger und Echo Anschl√ºssen der Ultraschallsensoren werden die Anschl√ºsse definiert.
 
 const int trigPinmitte = 12;
 const int echoPinmitte = 11;
@@ -35,7 +62,7 @@ const int echoPinrechts = 9;
 const int trigPinlinks = 7;
 const int echoPinlinks = 6;
 
-// Anschl¸sse der beiden Motoren:
+// Anschl√ºsse der beiden Motoren:
 CMotor MotorLinks(3, 2);
 CMotor MotorRechts(5, 4);
 CAntrieb Antrieb(&MotorLinks, &MotorRechts);
@@ -58,6 +85,7 @@ void setup() {
   pinMode(echoPinlinks, INPUT);
   Serial.begin(9600);
 }
+
 void loop() {
   // Distanz vom mittleren Sensor wird ausgegeben und in einer Variable gespeichert.
   digitalWrite(trigPinmitte, LOW);
@@ -97,18 +125,41 @@ if (((distancemitte > 15) || (distancerechts > 15 )) || (distancelinks > 15)) {
     Antrieb.Gerade(true,100); 
   }
 
-// Wenn der rechte Sensor eine Distanz von kleiner gleich 15cm erkennt dann soll das Auto eine Kurve nach links mit der Sch‰rfe 5 fahren.
+// Wenn der rechte Sensor eine Distanz von kleiner gleich 15cm erkennt dann soll das Auto eine Kurve nach links mit der Sch√§rfe 5 fahren.
 if(distancerechts<=15)
 {
      Antrieb.Kurve(5, 100, true);
 }
 
-// Wenn der linke Sensor eine Distanz von kleiner gleich 15cm erkennt dann soll das Auto eine Kurve nach rechts mit der Sch‰rfe 5 fahren.
+// Wenn der linke Sensor eine Distanz von kleiner gleich 15cm erkennt dann soll das Auto eine Kurve nach rechts mit der Sch√§rfe 5 fahren.
 if(distancelinks<=15)
 {
      Antrieb.Kurve(-5, 100, true);
 }
 }
-</p>
+        </code>
+</pre>
+        
+
+        </div>
+      </div>
+    </section>
+
+    <hr class="m-0">
+
+
+  </div>
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Plugin JavaScript -->
+  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+  <!-- Custom scripts for this template -->
+  <script src="js/resume.min.js"></script>
+
 </body>
+
 </html>
