@@ -32,7 +32,7 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a class="nav-link js-scroll-trigger" href="#ultraschall">Roboter mit Ultraschallsensoren ---------------------------- Neuner Elias, Siegele Noah</a>
+          <a class="nav-link js-scroll-trigger" href="#ultraschall">HTL - Car <br>---------------------------- Neuner Elias, Siegele Noah</a>
 		  <video id='v1' width="150" autoplay>
 		  <source src="ultra_sieNeu.mp4" type="video/mp4"></video>
 		   <video id='v1' width="150" autoplay>
@@ -43,13 +43,11 @@
   </nav>
 
   <div class="container-fluid p-0">
-
     <section class="resume-section p-3 p-lg-5 d-flex align-items-center" id="ultraschall">
       <div class="w-100">
-        <h1 class="mb-0">Roboter mit Abstandsmessung durch Ultraschallsensoren
-        </h1>
-
-        <h3> Globaler Programmbereich </h3>
+        <h2 class="mb-0">HTL - Car mit Abstandsmessung durch Ultraschallsensoren und Linienverfolgung durch Infrarotsensoren</h2>
+		<br>
+        <h3> Globaler Programmbereich Parkour</h3>
 <pre>
         <code>
 #include <FahrzeugLib.h>
@@ -146,7 +144,53 @@ void loop() {
 //so den Rundkurs meistern.
         </code>
 </pre>
+<h3> Globaler Programmbereich Linienfolger</h3>
+<pre>
+	<code>
+#include <FahrzeugLib.h>
 
+#define sensorLinks 11 
+#define sensorRechts 12 
+#define sensorMitte 10
+
+CMotor MotorRechts(5,4);
+CMotor MotorLinks(3,2);
+
+CAntrieb Antrieb (&MotorLinks, &MotorRechts);
+
+boolean messenLinks(){
+  return digitalRead(sensorLinks);
+}
+
+boolean messenMitte(){
+  return digitalRead(sensorMitte);
+}
+
+boolean messenRechts(){
+  return digitalRead(sensorRechts);
+}
+
+void setup() {
+  Serial.begin(9600);
+  pinMode(sensorLinks, INPUT);
+  pinMode(sensorRechts, INPUT);
+  pinMode(sensorMitte, INPUT);
+}
+
+void loop() {
+  if((messenRechts() == false) && (messenLinks() == false) && (messenMitte() == true)){
+    Antrieb.Kurve(0, 200, true);
+  }
+  
+  else if(messenLinks() == true){
+    Antrieb.Kurve(-90, 175, true);
+  }
+  else if(messenRechts() == true){
+    Antrieb.Kurve(75, 175, true);
+  }
+}
+	</code>
+</pre>
         </div>
       </div>
     </section>
